@@ -14,6 +14,8 @@ services:
         value: production
       - key: PORT
         value: 5000
+      - key: MONGODB_URI
+        sync: false
       - key: JWT_SECRET
         generateValue: true
       - key: JWT_EXPIRES_IN
@@ -23,17 +25,13 @@ services:
       - key: JOB_SYNC_CRON
         value: "0 */6 * * *"
       - key: CLIENT_URL
-        fromService:
-          type: web
-          name: jobpilot-web
-          property: host
+        value: https://jobpilot-web.onrender.com
 
   # Frontend Static Site
   - type: web
     name: jobpilot-web
     runtime: static
     plan: free
-    region: oregon
     rootDir: client
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist
@@ -43,7 +41,4 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_BASE_URL
-        fromService:
-          type: web
-          name: jobpilot-api
-          property: url
+        value: https://jobpilot-api.onrender.com/api
