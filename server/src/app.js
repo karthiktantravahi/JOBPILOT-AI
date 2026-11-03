@@ -36,8 +36,14 @@ app.use(
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow localhost or production client URL or requests with no origin (e.g. mobile apps/curl)
-      if (!origin || origin.includes('localhost') || origin.includes('127.0.0.1') || origin === ENV.CLIENT_URL) {
+      // Allow localhost or production client URL or Render domains or requests with no origin
+      if (
+        !origin ||
+        origin.includes('localhost') ||
+        origin.includes('127.0.0.1') ||
+        origin === ENV.CLIENT_URL ||
+        origin.includes('onrender.com')
+      ) {
         callback(null, true);
       } else {
         callback(null, true); // Permissive in dev/free tier
