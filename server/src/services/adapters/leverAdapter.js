@@ -9,7 +9,7 @@ export class LeverAdapter {
     return JOB_SOURCES.LEVER;
   }
 
-  static defaultCompanies = ['automattic', 'kinsta'];
+  static defaultCompanies = ['kinsta', 'deliveroo', 'automattic'];
 
   /**
    * Fetches public postings from Lever API

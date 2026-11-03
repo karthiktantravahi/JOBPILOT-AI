@@ -1,6 +1,7 @@
 {
   "name": "jobpilot-ai",
   "version": "1.0.0",
+  "type": "module",
   "description": "JobPilot AI - Find the right job. Apply smarter. Global AI-powered job discovery and application management platform.",
   "scripts": {
     "install:all": "npm install && cd server && npm install && cd ../client && npm install",

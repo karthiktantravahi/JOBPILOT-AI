@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import compression from 'compression';
 import { ENV } from './config/env.js';
 import { apiLimiter } from './middleware/rateLimiter.js';
 import { errorHandler } from './middleware/errorHandler.js';
@@ -17,10 +18,16 @@ import syncRoutes from './routes/syncRoutes.js';
 
 const app = express();
 
+// Trust proxy for reverse proxies (Cloudflare, Render, Railway, Nginx)
+app.set('trust proxy', 1);
+
+// HTTP response compression
+app.use(compression());
+
 // Security HTTP headers
 app.use(
   helmet({
-    contentSecurityPolicy: false, // Permit frontend communication
+    contentSecurityPolicy: false, // Permit frontend communication & CDN assets
     crossOriginEmbedderPolicy: false,
   })
 );

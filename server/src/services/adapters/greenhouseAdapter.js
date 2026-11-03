@@ -9,8 +9,15 @@ export class GreenhouseAdapter {
     return JOB_SOURCES.GREENHOUSE;
   }
 
-  // Public greenhouse board tokens that permit public board reads
-  static defaultBoards = ['gitlab', 'cloudflare'];
+  // Top legitimate public greenhouse board tokens with open public career feeds
+  static defaultBoards = [
+    'gitlab',
+    'cloudflare',
+    'stripe',
+    'figma',
+    'elastic',
+    'brex',
+  ];
 
   /**
    * Fetches public job postings from Greenhouse board endpoints
