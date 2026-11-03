@@ -1,0 +1,31 @@
+{
+  "name": "jobpilot-ai",
+  "version": "1.0.0",
+  "description": "JobPilot AI - Find the right job. Apply smarter. Global AI-powered job discovery and application management platform.",
+  "scripts": {
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"blue,green\" \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "build:client": "cd client && npm run build",
+    "build:server": "cd server && npm run build",
+    "build": "npm run build:client",
+    "test": "cd server && npm test",
+    "seed": "cd server && npm run seed",
+    "sync:jobs": "cd server && npm run sync:jobs"
+  },
+  "keywords": [
+    "job-board",
+    "job-search",
+    "ai-matching",
+    "transformers",
+    "resume-parser",
+    "application-tracker",
+    "kanban"
+  ],
+  "author": "JobPilot AI Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
