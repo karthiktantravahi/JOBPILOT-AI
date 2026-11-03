@@ -29,9 +29,13 @@ export const LoginPage = () => {
       const from = location.state?.from?.pathname || '/jobs';
       navigate(from, { replace: true });
     } catch (err) {
-      setServerError(
-        err.response?.data?.message || 'Login failed. Please check your credentials.'
-      );
+      if (!err.response) {
+        setServerError('Cannot connect to backend API server. Please check that the backend is running.');
+      } else {
+        setServerError(
+          err.response?.data?.message || 'Login failed. Please check your credentials.'
+        );
+      }
     }
   };
 

@@ -27,9 +27,13 @@ export const RegisterPage = () => {
       await registerAuth(data);
       navigate('/resume'); // Direct to resume upload right after registration!
     } catch (err) {
-      setServerError(
-        err.response?.data?.message || 'Registration failed. Please try a different email.'
-      );
+      if (!err.response) {
+        setServerError('Cannot connect to backend API server. Please check that the backend is running.');
+      } else {
+        setServerError(
+          err.response?.data?.message || 'Registration failed. Please try again.'
+        );
+      }
     }
   };
 
