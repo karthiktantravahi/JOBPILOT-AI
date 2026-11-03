@@ -1,3 +1,4 @@
+# Render Blueprint Specification for JobPilot AI - Production Ready
 services:
   # Backend API
   - type: web
