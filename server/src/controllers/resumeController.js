@@ -12,10 +12,18 @@ export const uploadAndParseResume = async (req, res, next) => {
       });
     }
 
-    const parsedData = await ResumeParserService.parsePdf(
-      req.file.buffer,
-      req.file.originalname
-    );
+    let parsedData;
+    try {
+      parsedData = await ResumeParserService.parsePdf(
+        req.file.buffer,
+        req.file.originalname
+      );
+    } catch (parseErr) {
+      return res.status(400).json({
+        success: false,
+        message: parseErr.message || 'Invalid or unreadable PDF document. Please upload a standard PDF.',
+      });
+    }
 
     // Save uploaded resume state to user document WITHOUT overwriting existing profile data
     const user = await User.findById(req.user._id);

@@ -7,18 +7,27 @@ let mongodInstance = null;
 
 export const connectDB = async () => {
   try {
+    const isProduction = ENV.NODE_ENV === 'production';
+    const timeoutMS = isProduction ? 15000 : 3000;
+
     if (ENV.MONGODB_URI && ENV.MONGODB_URI.startsWith('mongodb')) {
       try {
         logger.info(`Attempting connection to MongoDB URI: ${ENV.MONGODB_URI.replace(/\/\/.*@/, '//***@')}`);
-        // Quick timeout to not hang if local mongod is not running
         await mongoose.connect(ENV.MONGODB_URI, {
-          serverSelectionTimeoutMS: 2500,
+          serverSelectionTimeoutMS: timeoutMS,
         });
         logger.info('MongoDB connected successfully via MONGODB_URI.');
         return mongoose.connection;
       } catch (connErr) {
-        logger.warn(`Failed to connect to configured MONGODB_URI (${connErr.message}). Falling back to in-memory MongoDB...`);
+        if (isProduction) {
+          logger.error(`CRITICAL: Failed to connect to persistent production MongoDB: ${connErr.message}`);
+          throw new Error(`Production MongoDB connection failed: ${connErr.message}. Fallback to in-memory database is disabled in production.`);
+        }
+        logger.warn(`Failed to connect to configured MONGODB_URI (${connErr.message}). Falling back to in-memory MongoDB (dev mode)...`);
       }
+    } else if (isProduction) {
+      logger.error('CRITICAL: MONGODB_URI environment variable is missing in production.');
+      throw new Error('MONGODB_URI is required in production. Silent in-memory fallback is disabled.');
     }
 
     logger.info('Initializing In-Memory MongoDB Server (Zero-Config Development)...');

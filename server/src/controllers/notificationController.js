@@ -57,7 +57,18 @@ export const markAllAsRead = async (req, res, next) => {
 
 export const deleteNotification = async (req, res, next) => {
   try {
-    await Notification.findOneAndDelete({ _id: req.params.id, userId: req.user._id });
+    const notification = await Notification.findOneAndDelete({
+      _id: req.params.id,
+      userId: req.user._id,
+    });
+
+    if (!notification) {
+      return res.status(404).json({
+        success: false,
+        message: 'Notification not found or access denied.',
+      });
+    }
+
     res.json({
       success: true,
       message: 'Notification removed',

@@ -11,7 +11,9 @@ export class ResumeParserService {
    */
   static async parsePdf(pdfBuffer, originalFilename = 'resume.pdf') {
     try {
-      const pdfData = await pdfParse(pdfBuffer);
+      // Convert buffer to Uint8Array for cross-runtime PDFJS compatibility in Node 22/24
+      const uint8Array = new Uint8Array(pdfBuffer);
+      const pdfData = await pdfParse(uint8Array);
       const rawText = pdfData.text || '';
       return this.parseText(rawText, originalFilename);
     } catch (error) {

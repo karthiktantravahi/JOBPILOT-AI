@@ -103,7 +103,14 @@ const ApplicationSchema = new mongoose.Schema(
   }
 );
 
-// Compound index so a user cannot duplicate track the same job
-ApplicationSchema.index({ userId: 1, jobId: 1 }, { unique: true, sparse: true });
+// Compound index: A user cannot duplicate track the same external job post.
+// Uses partialFilterExpression so multiple manual entries (where jobId is null or missing) are never blocked.
+ApplicationSchema.index(
+  { userId: 1, jobId: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { jobId: { $type: 'objectId' } },
+  }
+);
 
 export const Application = mongoose.model('Application', ApplicationSchema);

@@ -27,6 +27,7 @@
   "author": "JobPilot AI Team",
   "license": "MIT",
   "devDependencies": {
+    "@playwright/test": "^1.64.1",
     "concurrently": "^9.1.2"
   }
 }
